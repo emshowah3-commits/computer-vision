@@ -1,11 +1,15 @@
 import cv2
+from cvzone.FaceDetectionModule import FaceDetector
+
+detector = FaceDetector()
 
 cap = cv2.VideoCapture(0)
 
 while True:
     success, img = cap.read()
-    if not success:
-        break
-    cv2.imshow("Video", img)
+    img, bboxes = detector.findFaces(img)
+    if bboxes:
+        center = bboxes[0]['center']
+    cv2.imshow("Face Detection", img)
     if cv2.waitKey(1) & 0xFF == ord(' '):
         break
